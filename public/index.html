@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pusher WebRTC Chat Demo</title>
+  <title>Nem Um Lugar</title>
 
   <!-- Bootstrap for general layout and styling -->
   <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
@@ -10,15 +10,6 @@
   <!-- <link rel="stylesheet" type="text/css" href="style/datachannel-demo.css"> -->
 </head>
 <body>
-
-  <nav class="navbar" role="navigation">
-    <div class="container">
-
-      <span>| Realtime API</span>
-
-      <a href="http://pusher.com/pricing"><button class="btn signup-button">Create a Free Account</button></a>
-    </div>
-  </nav>
 
   <div class="container">
     <div class="row">
@@ -29,9 +20,7 @@
 
     <div class="row">
       <section class="col-md-12">
-        <p>This chat application uses WebRTC to create a peer-to-peer, server-less connection between you and the recipient of your chat messages, a bit like Skype!</p>
-
-        <p>Want to create this yourself? Read the full tutorial on <a href="http://pusher.com/tutorials/webrtc_chat">creating a WebRTC chat application using Pusher</a>.</p>
+        <p>This chat application uses WebRTC to create a peer-to-peer, server-less connection between you and the recipient of your osc messages.</p>
 
         <hr>
 
@@ -51,6 +40,9 @@
             <button class="demo-chat-create btn btn-primary">Create</button>
             <button class="demo-chat-join btn btn-warning">Join</button>
           </div>
+          <!-- OSC!!! -->
+          <button class=" btn" id="send-osc">Send OSC Message</button>
+
           <div class="demo-chat inactive">
             <div class="demo-chat-input">
               <input name="message" class="demo-chat-message-input form-control" placeholder="Message"></input>
@@ -80,6 +72,9 @@
 
   <!-- Our WebRTC application -->
   <script src="um-lugar.js"></script>
+
+  <!-- OSC-js -->
+  <script type="text/javascript" src="lib/osc.browser.min.js"></script>
 
   <!-- Fill channel name -->
   <script>

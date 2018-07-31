@@ -35,7 +35,8 @@ pusher.connection.bind('state_change', (states) => {
   }
 });
 
-// Set custom Pusher signalling channel
+// -------------------------------------------------------------
+// SET CUSTOM PUSHER SIGNALING CHANNEL /////////////////////////
 // https://github.com/muaz-khan/WebRTC-Experiment/blob/master/Signaling.md
 datachannel.openSignalingChannel = (config) => {
   const channel = config.channel || this.channel || 'default-channel';
@@ -82,6 +83,22 @@ datachannel.openSignalingChannel = (config) => {
   });
   return socket;
 };
+// ------------------------------------------------------------
+
+// ------------------------------------------------------------
+// ---------- OSC STUFF ---------------------------------------
+// ------------------------------------------------------------
+
+let osc = new OSC();
+osc.open(); // connect by default to ws://localhost:8080
+
+document.getElementById('send-osc').addEventListener('click', () => {
+  let message = new OSC.Message('/test/random', Math.random());
+  osc.send(message);
+});
+
+// -----------------------------------------------------------
+
 
 const cleanChannelName = channel => channel.replace(/(\W)+/g, '-').toLowerCase();
 
