@@ -30,7 +30,7 @@ pusher.connection.bind("state_change", function(states) {
   }
 });
 
-// Set custom Pusher signalling channel
+// Set custom Pusher signalling channel 
 // https://github.com/muaz-khan/WebRTC-Experiment/blob/master/Signaling.md
 datachannel.openSignalingChannel = function(config) {
   var channel = config.channel || this.channel || "default-channel";
