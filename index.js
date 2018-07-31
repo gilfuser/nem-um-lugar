@@ -12,10 +12,11 @@ const app = express();
 // --------------------------------------------------------------------
 var Pusher = require("pusher");
 var pusher = new Pusher({
-  appId: process.env.PUSHER_APP_ID,
-  key: process.env.PUSHER_APP_KEY,
-  secret: process.env.PUSHER_APP_SECRET,
-  cluster: process.env.PUSHER_APP_CLUSTER
+  appId: '569597',
+  key: '5b910001398e4d3a968e',
+  secret: '77253b675c53dfb73153',
+  cluster: 'eu',
+  encrypted: true
 });
 
 var pusherCallback = function(err, req, res){

@@ -5,8 +5,13 @@ var datachannel = new DataChannel();
 // https://github.com/muaz-khan/WebRTC-Experiment/tree/master/DataChannel#use-custom-user-ids
 datachannel.userid = window.userid;
 
+Pusher.logToConsole = true;
+
 // Open a connection to Pusher
-var pusher = new Pusher("5b910001398e4d3a968e", { cluster: "us" });
+var pusher = new Pusher('5b910001398e4d3a968e', {
+      cluster: 'eu',
+      encrypted: true
+    });
 
 // Storage of Pusher connection socket ID
 var socketId;
@@ -30,7 +35,7 @@ pusher.connection.bind("state_change", function(states) {
   }
 });
 
-// Set custom Pusher signalling channel 
+// Set custom Pusher signalling channel
 // https://github.com/muaz-khan/WebRTC-Experiment/blob/master/Signaling.md
 datachannel.openSignalingChannel = function(config) {
   var channel = config.channel || this.channel || "default-channel";
