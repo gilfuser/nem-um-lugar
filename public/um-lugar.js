@@ -88,8 +88,20 @@ datachannel.openSignalingChannel = (config) => {
 // ------------------------------------------------------------
 // ---------- OSC STUFF ---------------------------------------
 // ------------------------------------------------------------
+const options = {
+  udpServer: { port: 54321 },
+  udpClient: { port: 57120 },
+  wsServer: {
+    host: '0.0.0.0', // @param {string} Hostname of WebSocket server
+    port: 8080, // @param {number} Port of WebSocket server
+  },
+  wsClient: {
+    host: '0.0.0.0',
+    port: 8080,
+  },
+};
 
-let osc = new OSC();
+let osc = new OSC(options);
 osc.open(); // connect by default to ws://localhost:8080
 
 document.getElementById('send-osc').addEventListener('click', () => {

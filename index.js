@@ -40,10 +40,16 @@ const pusherCallback = (err, req, res) => {
 
 const OSC = require('osc-js');
 
-const udpconfig = {
-  udpServer: { port: 54321 }, udpClient: { port: 57120 },
+const oscoptions = {
+  receiver: 'ws', // @param {string} Where messages sent via 'send' method will be delivered to, 'ws' for Websocket clients, 'udp' for udp client
+  udpServer: { port: 54321 },
+  udpClient: { port: 57120 },
+  wsServer: {
+    host: '0.0.0.0', // @param {string} Hostname of WebSocket server
+    port: 8080, // @param {number} Port of WebSocket server
+  },
 };
-const osc = new OSC({ plugin: new OSC.BridgePlugin(udpconfig) });
+const osc = new OSC({ plugin: new OSC.BridgePlugin(oscoptions) });
 
 osc.on('/hello', (message) => {
   console.log(message.args);
