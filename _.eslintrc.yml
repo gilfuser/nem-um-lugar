@@ -1,5 +1,3 @@
-env:
-  node: true
 extends: standard
 rules:
   no-console: 1
@@ -10,3 +8,5 @@ rules:
   no-extra-semi: 1
   default-case: 1
   no-var: 1
+  semi: 1
+  comma-dangle: 1
