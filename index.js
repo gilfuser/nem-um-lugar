@@ -1,16 +1,13 @@
-let config = {
+const config = {
   app_id: process.env.PUSHER_APP_ID,
   key: process.env.PUSHER_APP_KEY,
   secret: process.env.PUSHER_APP_SECRET,
 };
 
-let test = () => {console.log(config.app_id);};
-test();
-
 const express = require('express');
 const path = require('path');
-var bodyParser = require("body-parser");
-var errorHandler = require("errorhandler");
+const bodyParser = require('body-parser');
+const errorHandler = require('errorhandler');
 
 const PORT = process.env.PORT || 5001;
 const app = express();
@@ -18,22 +15,23 @@ const app = express();
 // --------------------------------------------------------------------
 // SET UP PUSHER
 // --------------------------------------------------------------------
-var Pusher = require("pusher");
-var pusher = new Pusher({
+const Pusher = require('pusher');
+
+const pusher = new Pusher({
   appId: config.app_id,
   key: config.key,
   secret: config.secret,
   cluster: 'eu',
-  encrypted: true
+  encrypted: true,
 });
 // console.log(pusher.app_id);
 
-var pusherCallback = function (err, req, res) {
+const pusherCallback = (err, req, res) => {
   if (err) {
-    console.log("Pusher error:", err.message);
+    console.log('Pusher error:', err.message);
     console.log(err.stack);
   }
-}
+};
 
 // --------------------------------------------------------------------
 // SET UP EXPRESS
@@ -41,13 +39,13 @@ var pusherCallback = function (err, req, res) {
 
 // Parse application/json and application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
-  extended: true
+  extended: true,
 }));
 app.use(bodyParser.json());
 
 // Simple logger
-app.use(function (req, res, next) {
-  console.log("%s %s", req.method, req.url);
+app.use((req, res, next) => {
+  console.log('%s %s', req.method, req.url);
   console.log(req.body);
   next();
 });
@@ -55,18 +53,18 @@ app.use(function (req, res, next) {
 // Error handler
 app.use(errorHandler({
   dumpExceptions: true,
-  showStack: true
+  showStack: true,
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Message proxy
-app.post('/message', function (req, res) {
-  var socketId = req.body.socketId;
-  var channel = req.body.channel;
-  var message = req.body.message;
+app.post('/message', (req, res) => {
+  const { socketId, channel, message } = req.body;
+  // let channel = req.body.channel;
+  // let message = req.body.message;
   pusher.trigger(channel, 'message', message, socketId, pusherCallback);
-  res.send(200);
+  res.sendStatus(200);
 });
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
