@@ -1,0 +1,12 @@
+env:
+  node: true
+extends: standard
+rules:
+  no-console: 1
+  no-unused-vars: 1
+  no-undef: 1
+  prefer-const: 1
+  no-use-before-define: 1
+  no-extra-semi: 1
+  default-case: 1
+  no-var: 1

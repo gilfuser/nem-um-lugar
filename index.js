@@ -1,31 +1,42 @@
-const express = require('express');
-const path = require('path');
-var bodyParser = require("body-parser");
-var errorHandler = require("errorhandler");
+let config
+try {
+  config = require('./config')
+} catch (e) {
+  console.log('Failed to find local config, falling back to environment variables')
+  config = {
+    app_id: process.env.PUSHER_APP_ID,
+    key: process.env.PUSHER_KEY,
+    secret: process.env.PUSHER_SECRET,
+    cluster: process.env.PUSHER_CLUSTER
+  }
+};
 
+const express = require('express')
+const path = require('path')
+var bodyParser = require('body-parser')
+var errorHandler = require('errorhandler')
 
-const PORT = process.env.PORT || 5000;
-const app = express();
+const PORT = process.env.PORT || 5000
+const app = express()
 
 // --------------------------------------------------------------------
 // SET UP PUSHER
 // --------------------------------------------------------------------
-var Pusher = require("pusher");
+var Pusher = require('pusher')
 var pusher = new Pusher({
-  appId: '569597',
-  key: '5b910001398e4d3a968e',
-  secret: '77253b675c53dfb73153',
-  cluster: 'eu',
+  appId: config.app_id,
+  key: config.key,
+  secret: config.secret,
+  cluster: config.cluster,
   encrypted: true
-});
+})
 
-var pusherCallback = function(err, req, res){
-  if(err){
-    console.log("Pusher error:", err.message);
-    console.log(err.stack);
+var pusherCallback = function (err, req, res) {
+  if (err) {
+    console.log('Pusher error:', err.message)
+    console.log(err.stack)
   }
 }
-
 
 // --------------------------------------------------------------------
 // SET UP EXPRESS
@@ -34,38 +45,34 @@ var pusherCallback = function(err, req, res){
 // Parse application/json and application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
   extended: true
-}));
-app.use(bodyParser.json());
+}))
+app.use(bodyParser.json())
 
 // Simple logger
-app.use(function(req, res, next){
-  console.log("%s %s", req.method, req.url);
-  console.log(req.body);
-  next();
-});
+app.use(function (req, res, next) {
+  console.log('%s %s', req.method, req.url)
+  console.log(req.body)
+  next()
+})
 
 // Error handler
 app.use(errorHandler({
   dumpExceptions: true,
   showStack: true
-}));
+}))
 
-app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(express.static(path.join(__dirname, 'public')))
 
 // Message proxy
-app.post("/message", function(req, res) {
+app.post('/message', function (req, res) {
+  var socketId = req.body.socketId
+  var channel = req.body.channel
+  var message = req.body.message
+  pusher.trigger(channel, 'message', message, socketId, pusherCallback)
+  res.send(200)
+})
 
-  var socketId = req.body.socketId;
-  var channel = req.body.channel;
-  var message = req.body.message;
-
-  pusher.trigger(channel, "message", message, socketId, pusherCallback);
-
-  res.send(200);
-});
-
-app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+app.listen(PORT, () => console.log(`Listening on ${PORT}`))
 /*
 express()
   .use(express.static(path.join(__dirname, 'public')))
