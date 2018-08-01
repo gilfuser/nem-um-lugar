@@ -76,6 +76,17 @@
 
   <!-- <script type="text/javascript" src="https://raw.githubusercontent.com/gilfuser/nem-um-lugar/master/public/lib/osc-browser.min.js"></script> -->
 
+  <!-- Our OSC application -->
+  <script type="text/javascript" src="osc-stuff.js"></script>
+  <h1>osc.js Web Socket Demo</h1>
+  <div id="messageArea">
+    <p id="messageLabel">OSC Message:</p>
+    <pre id="message"></pre>
+  </div>
+
+  <script>
+    const socketSynth = new example.SocketSynth();
+  </script>
 
   <!-- Our WebRTC application -->
   <script src="um-lugar.js"></script>
@@ -84,12 +95,12 @@
   <script>
     function getParameterByName(name) {
       name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      let regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
           results = regex.exec(location.search);
       return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
-    var channel = getParameterByName("channel");
+    let channel = getParameterByName("channel");
 
     if (channel) {
       document.querySelector(".demo-chat-channel-input").value = channel;

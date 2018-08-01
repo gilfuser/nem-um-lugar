@@ -41,6 +41,25 @@ const pusherCallback = (err, req, res) => {
 
 // const OSC = require('osc-js');
 const osc = require('osc');
+const os = require('os');
+
+let getIPAddresses = () => {
+  let interfaces = os.networkInterfaces();
+  let ipAddresses = [];
+
+  for (let deviceName in interfaces) {
+    if (interfaces.hasOwnProperty(deviceName)) {
+      let addresses = interfaces[deviceName];
+      for (let i = 0; i < addresses.length; i += 1) {
+        let adressInfo = addresses[i];
+        if (addressInfo.family === 'IPv4' && !addressInfo.internal) {
+          ipAddresses.push(addressInfo.address);
+        }
+      }
+    }
+  }
+  return ipAddresses;
+};
 
 const udp = new osc.UDPPort({
   // This is the port we're listening on.
@@ -53,12 +72,19 @@ const udp = new osc.UDPPort({
 });
 
 // Open the socket.
-udp.open();
 
 // check incoming osc messages
-udp.on('message', (message, timetag, info) => {
+udp.on('ready', (message, timetag, info) => {
+  let ipAddresses = getIPAddresses();
+  console.log('Listening for OSC over UDP.');
+  ipAddresses.forEach((address) => {
+    console.log(' Host:', `${address}, Port:`, udp.options.localPort);
+  });
   console.log(message);
+  console.log('To start the demo, go to http://localhost:8081 in your web browser.');
 });
+
+udp.open();
 
 // Every second, send an OSC message to SuperCollider
 udp.on('ready', () => {
@@ -134,6 +160,27 @@ app.post('/message', (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+// OSC EXPRESS
+
+// const apposc = express();
+const server = app.listen(PORT);
+const wss = new ws.Server({
+  server,
+});
+
+// apposc.use('/', express.static(appResources));
+wss.on('connection', (socket) => {
+  console.log('A Web Socket connection has been established!');
+  let socketPort = new osc.WebSocketPort({
+    socket,
+  });
+
+  let relay = new osc.Relay(udp, socketPort, {
+    raw: true
+  });
+});
+
 /*
 express()
   .use(express.static(path.join(__dirname, 'public')))
