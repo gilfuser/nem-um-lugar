@@ -1,5 +1,5 @@
 /* eslint-disable */
-let example = example || {};
+let example = {};
 
 (function () {
 /*
