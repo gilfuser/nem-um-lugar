@@ -35,7 +35,7 @@ let example = example || {};
 */
   example.SocketSynth = () => {
     this.oscPort = new osc.WebSocketPort({
-      url: 'ws://localhost:5000'
+      url: 'ws://localhost:8081'
     });
 
     this.listen();

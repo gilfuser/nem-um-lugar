@@ -124,6 +124,7 @@ console.log(message.args);
 
 osc.open(); // start a WebSocket server on port 8080
 */
+
 // --------------------------------------------------------------------
 // SET UP EXPRESS
 // --------------------------------------------------------------------
@@ -162,12 +163,14 @@ app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 // OSC EXPRESS
 
-// const apposc = express();
-const server = app.listen(PORT);
-const wss = new ws.Server({
+const apposc = require('express');
+
+const server = apposc.listen(8081);
+let wss = new ws.Server({
   server,
 });
 
+apposc.use(express.static(path.join(__dirname, 'public')));
 // apposc.use('/', express.static(appResources));
 wss.on('connection', (socket) => {
   console.log('A Web Socket connection has been established!');
@@ -180,6 +183,7 @@ wss.on('connection', (socket) => {
   });
 });
 
+const test = argument = console.log(argument);
 /*
 express()
 .use(express.static(path.join(__dirname, 'public')))
