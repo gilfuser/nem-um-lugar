@@ -44,17 +44,16 @@ const osc = require('osc');
 const os = require('os');
 
 let getIPAddresses = () => {
+  // var os = require("os"),
   let interfaces = os.networkInterfaces();
   let ipAddresses = [];
 
   for (let deviceName in interfaces) {
-    if (interfaces.hasOwnProperty(deviceName)) {
-      let addresses = interfaces[deviceName];
-      for (let i = 0; i < addresses.length; i += 1) {
-        let adressInfo = addresses[i];
-        if (addressInfo.family === 'IPv4' && !addressInfo.internal) {
-          ipAddresses.push(addressInfo.address);
-        }
+    let addresses = interfaces[deviceName];
+    for (let i = 0; i < addresses.length; i += 1) {
+      let addressInfo = addresses[i];
+      if (addressInfo.family === 'IPv4' && !addressInfo.internal) {
+        ipAddresses.push(addressInfo.address);
       }
     }
   }
@@ -108,19 +107,19 @@ udp.on('ready', () => {
 });
 
 /* const oscoptions = {
-  receiver: 'ws', // @param {string} Where messages sent via 'send'
-  // method will be delivered to, 'ws' for Websocket clients, 'udp' for udp client
-  udpServer: { port: 54321 },
-  udpClient: { port: 57120 },
-  wsServer: {
-    host: '0.0.0.0', // @param {string} Hostname of WebSocket server
-    port: 8080, // @param {number} Port of WebSocket server
-  },
+receiver: 'ws', // @param {string} Where messages sent via 'send'
+// method will be delivered to, 'ws' for Websocket clients, 'udp' for udp client
+udpServer: { port: 54321 },
+udpClient: { port: 57120 },
+wsServer: {
+host: '0.0.0.0', // @param {string} Hostname of WebSocket server
+port: 8080, // @param {number} Port of WebSocket server
+},
 };
 const osc = new OSC({ plugin: new OSC.BridgePlugin(oscoptions) });
 
 osc.on('/hello', (message) => {
-  console.log(message.args);
+console.log(message.args);
 });
 
 osc.open(); // start a WebSocket server on port 8080
@@ -183,9 +182,9 @@ wss.on('connection', (socket) => {
 
 /*
 express()
-  .use(express.static(path.join(__dirname, 'public')))
-  .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+.use(express.static(path.join(__dirname, 'public')))
+.set('views', path.join(__dirname, 'views'))
+.set('view engine', 'ejs')
+.get('/', (req, res) => res.render('pages/index'))
+.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 */
