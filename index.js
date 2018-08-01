@@ -42,11 +42,10 @@ const pusherCallback = (err, req, res) => {
 // const OSC = require('osc-js');
 const osc = require('osc');
 
-const udpPort = new osc.UDPPort({
+const udp = new osc.UDPPort({
   // This is the port we're listening on.
   localAddress: '0.0.0.0',
   localPort: 54321,
-
   // This is where sclang is listening for OSC messages.
   remoteAddress: '0.0.0.0',
   remotePort: 57120,
@@ -54,26 +53,33 @@ const udpPort = new osc.UDPPort({
 });
 
 // Open the socket.
-udpPort.open();
+udp.open();
+
+// check incoming osc messages
+udp.on('message', (message, timetag, info) => {
+  console.log(message);
+});
 
 // Every second, send an OSC message to SuperCollider
-setInterval(() => {
-  const msg = {
-    address: '/hello/from/oscjs',
-    args: [
-      {
-        type: 'f',
-        value: Math.random(),
-      },
-      {
-        type: 'f',
-        value: Math.random(),
-      },
-    ],
-  };
-  console.log('Sending message', msg.address, msg.args, 'to', `${udpPort.options.remoteAddress}:${udpPort.options.remotePort}`);
-  udpPort.send(msg);
-}, 1000);
+udp.on('ready', () => {
+  setInterval(() => {
+    const msg = {
+      address: '/hello/from/oscjs',
+      args: [
+        {
+          type: 'f',
+          value: Math.random(),
+        },
+        {
+          type: 'f',
+          value: Math.random(),
+        },
+      ],
+    };
+    console.log('Sending message', msg.address, msg.args, 'to', `${udp.options.remoteAddress}:${udp.options.remotePort}`);
+    udp.send(msg);
+  }, 1000)
+});
 
 /* const oscoptions = {
   receiver: 'ws', // @param {string} Where messages sent via 'send'
