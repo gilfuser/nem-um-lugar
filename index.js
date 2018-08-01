@@ -8,6 +8,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const errorHandler = require('errorhandler');
+const ws = require('ws');
 
 const PORT = process.env.PORT || 5001;
 const app = express();
@@ -38,10 +39,45 @@ const pusherCallback = (err, req, res) => {
 // SET UP OSC-js.js
 // -------------------------------------------------
 
-const OSC = require('osc-js');
+// const OSC = require('osc-js');
+const osc = require('osc');
 
-const oscoptions = {
-  receiver: 'ws', // @param {string} Where messages sent via 'send' method will be delivered to, 'ws' for Websocket clients, 'udp' for udp client
+const udpPort = new osc.UDPPort({
+  // This is the port we're listening on.
+  localAddress: '0.0.0.0',
+  localPort: 54321,
+
+  // This is where sclang is listening for OSC messages.
+  remoteAddress: '0.0.0.0',
+  remotePort: 57120,
+  metadata: true,
+});
+
+// Open the socket.
+udpPort.open();
+
+// Every second, send an OSC message to SuperCollider
+setInterval(() => {
+  const msg = {
+    address: '/hello/from/oscjs',
+    args: [
+      {
+        type: 'f',
+        value: Math.random(),
+      },
+      {
+        type: 'f',
+        value: Math.random(),
+      },
+    ],
+  };
+  console.log('Sending message', msg.address, msg.args, 'to', `${udpPort.options.remoteAddress}:${udpPort.options.remotePort}`);
+  udpPort.send(msg);
+}, 1000);
+
+/* const oscoptions = {
+  receiver: 'ws', // @param {string} Where messages sent via 'send'
+  // method will be delivered to, 'ws' for Websocket clients, 'udp' for udp client
   udpServer: { port: 54321 },
   udpClient: { port: 57120 },
   wsServer: {
@@ -56,7 +92,7 @@ osc.on('/hello', (message) => {
 });
 
 osc.open(); // start a WebSocket server on port 8080
-
+*/
 // --------------------------------------------------------------------
 // SET UP EXPRESS
 // --------------------------------------------------------------------
