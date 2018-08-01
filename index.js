@@ -41,25 +41,25 @@ const pusherCallback = (err, req, res) => {
 
 // const OSC = require('osc-js');
 const osc = require('osc');
-const os = require('os');
+/* eslint-disable */
+const getIPAddresses = function () {
+    var os = require('os'),
+        interfaces = os.networkInterfaces(),
+        ipAddresses = [];
 
-let getIPAddresses = () => {
-  // var os = require("os"),
-  let interfaces = os.networkInterfaces();
-  let ipAddresses = [];
-
-  for (let deviceName in interfaces) {
-    let addresses = interfaces[deviceName];
-    for (let i = 0; i < addresses.length; i += 1) {
-      let addressInfo = addresses[i];
-      if (addressInfo.family === 'IPv4' && !addressInfo.internal) {
-        ipAddresses.push(addressInfo.address);
-      }
+    for (var deviceName in interfaces) {
+        var addresses = interfaces[deviceName];
+        for (var i = 0; i < addresses.length; i++) {
+            var addressInfo = addresses[i];
+            if (addressInfo.family === "IPv4" && !addressInfo.internal) {
+                ipAddresses.push(addressInfo.address);
+            }
+        }
     }
-  }
-  return ipAddresses;
-};
 
+    return ipAddresses;
+};
+/* eslint-enable */
 const udp = new osc.UDPPort({
   // This is the port we're listening on.
   localAddress: '0.0.0.0',
