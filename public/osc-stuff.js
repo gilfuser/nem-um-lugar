@@ -36,7 +36,7 @@ transform: freqTransform
 
 example.SocketSynth = function () {
   this.oscPort = new osc.WebSocketPort({
-    url: "ws://localhost:8081"
+    url: "wss://0.0.0.0:8081"
   });
 
   this.listen();
