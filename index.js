@@ -101,7 +101,8 @@ udp.on('ready', () => {
         },
       ],
     };
-    console.log('Sending message', msg.address, msg.args, 'to', `${udp.options.remoteAddress}:${udp.options.remotePort}`);
+    //  console.log('Sending message', msg.address, msg.args, 'to',
+    // `${udp.options.remoteAddress}:${udp.options.remotePort}`);
     udp.send(msg);
   }, 1000)
 });
