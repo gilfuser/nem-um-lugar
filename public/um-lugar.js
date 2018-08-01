@@ -88,7 +88,7 @@ datachannel.openSignalingChannel = (config) => {
 // ------------------------------------------------------------
 // ---------- OSC STUFF ---------------------------------------
 // ------------------------------------------------------------
-const options = {
+/*  const options = {
   udpServer: { port: 54321 },
   udpClient: { port: 57120 },
   wsServer: {
@@ -108,7 +108,7 @@ document.getElementById('send-osc').addEventListener('click', () => {
   let message = new OSC.Message('/test/random', Math.random());
   osc.send(message);
 });
-
+*/
 // -----------------------------------------------------------
 
 
