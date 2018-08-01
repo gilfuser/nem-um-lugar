@@ -163,8 +163,7 @@ app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 // OSC EXPRESS
 
-const apposc = app();
-
+const apposc = express();
 const server = apposc.listen(8081);
 let wss = new ws.Server({
   server,
@@ -183,7 +182,6 @@ wss.on('connection', (socket) => {
   });
 });
 
-const test = argument = console.log(argument);
 /*
 express()
 .use(express.static(path.join(__dirname, 'public')))
