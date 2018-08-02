@@ -7,7 +7,7 @@
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
 
-  <link rel="stylesheet" href="styles.css">
+  <!-- <link rel="stylesheet" href="styles.css"> -->
 
   <!-- Bootstrap for general layout and styling -->
   <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
@@ -16,8 +16,8 @@
   <!-- <link rel="stylesheet" type="text/css" href="style/datachannel-demo.css"> -->
 </head>
 <body>
-
-  <div class="container">
+   <div class="container">
+     <p id="p1">Hello World!</p>
     <div class="row">
       <header class="col-md-12">
         <h1>Nenhum lugar</h1>
@@ -38,6 +38,7 @@
         </ol> -->
 
         <!-- WebRTC demo -->
+
         <div class="demo">
           <div class="demo-connect">
             <input type="text" class="demo-chat-channel-input form-control" placeholder="Channel name"></input>
@@ -62,7 +63,9 @@
       </section>
     </div>
   </div>
-
+<script>
+// document.getElementById('osc-input').innerHTML = 'fhjhgfghjhgffghj';
+</script>
   <!-- Zepto for AJAX -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.1.3/zepto.min.js"></script>
 
@@ -107,6 +110,7 @@
       document.querySelector(".demo-chat-channel-input").value = channel;
     }
   </script>
+
 </body>
 <script src="lib/NexusUI.min.js"></script>
 <!-- <script src="./js/dom-loader.js"></script> -->

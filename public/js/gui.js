@@ -17,7 +17,8 @@ synth2.mod.value = 0.75;
 // });
 
 function receiveOsc(address, msg) {
-  console.log(`received OSC: ${address}, ${msg}`);
+  // console.log(`received OSC: ${address}, ${msg}`);
+document.getElementById('p1').innerHTML = `received OSC: ${address}, ${msg}`;
 }
 
 const socket = io.connect();
@@ -64,3 +65,5 @@ function setupOsc(oscPortIn, oscPortOut) {
 }
 
 setupOsc(3333, 57120);
+
+// osc in

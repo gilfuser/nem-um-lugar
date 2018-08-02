@@ -38,6 +38,7 @@ pusher.connection.bind('state_change', (states) => {
 // -------------------------------------------------------------
 // SET CUSTOM PUSHER SIGNALING CHANNEL /////////////////////////
 // https://github.com/muaz-khan/WebRTC-Experiment/blob/master/Signaling.md
+
 datachannel.openSignalingChannel = (config) => {
   const channel = config.channel || this.channel || 'default-channel';
   let xhrErrorCount = 0;
@@ -188,8 +189,9 @@ const onMessageKeyDown = (event) => {
 };
 
 messageInput.addEventListener('keydown', onMessageKeyDown);
-// Demo DOM elements
+
 const sendBtn = document.querySelector('.demo-chat-send');
+
 
 // Set up DOM listeners
 createChannelBtn.addEventListener('click', onCreateChannel);
