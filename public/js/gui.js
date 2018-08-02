@@ -20,30 +20,34 @@ function receiveOsc(address, msg) {
   console.log(`received OSC: ${address}, ${msg}`);
 }
 
+const socket = io.connect();
+
 function sendOsc(address, msg) {
   socket.emit('message', [address].concat(msg));
 }
-/*
-const slider2 = new Nexus.slider('#slider');
-slider2.on('change',(msg) => {
+
+// sendOsc('/asdasd', 0.888)
+
+const slider = new Nexus.Slider('#slider');
+slider.on('change', (msg) => {
   // console.log(value);
-  socket.emit('message', msg);
+  // sendOsc('/slider', msg)
+  socket.emit('message', ['/test'].concat(msg));
   // console.log(msg);
 });
-*/
 
 function setupOsc(oscPortIn, oscPortOut) {
   console.log(`osc port-in is ${oscPortIn}`);
-  const socket = io.connect('http://127.0.0.1:8081', { port: 8081, rememberTransport: false });
+  // const socketio = io.connect('http://127.0.0.1:5000', { port: 5000, rememberTransport: false });
   socket.on('connect', () => {
     socket.emit('config', {
-      server: { port: oscPortIn, host: '0.0.0.0' },
-      client: { port: oscPortOut, host: '0.0.0.0' },
+      server: { port: oscPortIn, host: '127.0.0.1' },
+      client: { port: oscPortOut, host: '127.0.0.1' },
     });
   });
   // check connection
   if (socket !== undefined) {
-    console.log(`connected to socket: '${socket.value}`);
+    console.log(`connected to socket: '${socket}`);
   } else {
     console.log('socket is undefined');
   }

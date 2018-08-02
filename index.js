@@ -4,12 +4,6 @@ const config = {
   secret: process.env.PUSHER_APP_SECRET,
 };
 
-const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
-const errorHandler = require('errorhandler');
-const osc = require('node-osc');
-
 // --------------------------------------------------------------------
 // SET UP PUSHER
 // --------------------------------------------------------------------
@@ -35,13 +29,18 @@ const pusherCallback = (err, req, res) => {
 // SET UP SERVERS
 // --------------------------------------------------------------------
 
+
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
+const errorHandler = require('errorhandler');
+
 const app = express();
-const server = require('http').Server(app);
+const http = require('http').Server(app);
 // const ws = require('ws');
 
 const PORT = process.env.PORT || 5001;
-server.listen(PORT);
-console.log(`Server started on port ${PORT}`);
+http.listen(PORT, () => { console.log(`Server started on port ${PORT}`); });
 
 // Parse application/json and application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
@@ -64,6 +63,10 @@ app.use(errorHandler({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/', (req, res) => { // from oscchat project
+  res.sendFile('/public/index.html');
+});
+
 // Message proxy
 app.post('/message', (req, res) => {
   const { socketId, channel, message } = req.body;
@@ -73,49 +76,27 @@ app.post('/message', (req, res) => {
   res.sendStatus(200);
 });
 
-// app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+// app.listen(PORT, () => console.log(`Express listening on ${PORT}`));
 
 // OSC EXPRESS
-/*
-app.get('/', (req, res) => {
-  res.sendFile('/public/index.html');
-});
-*/
-app.use('/nexusui', express.static(path.join(__dirname, '/node_modules/nexusui/dist/')));
+
+// app.use('/nexusui', express.static(path.join(__dirname, '/node_modules/nexusui/dist/')));
 
 // This call back just tells us that the server has started
 function listen() {
-  let host = server.address().address;
-  let port = server.address().port;
-  console.log(`Example app listening at http://${host}:${port}`);
+  let host = http.address().address;
+  let port = http.address().port;
+  console.log(`http server listening at http://${host}:${port}`);
 }
-// const apposc = express();
-// const server = apposc.listen(8888);
-// let wss = new ws.Server({
-// server,
-// });
 
 // ////////////// WebSocket Portion ///////////////////////
 
-const io = require('socket.io').listen(server);
-// const osc = require('node-osc');
+const io = require('socket.io').listen(http);
+const osc = require('node-osc');
+
 let oscServer;
 let oscClient;
 let isConnected = false;
-/*
-apposc.use(express.static(path.join(__dirname, 'public')));
-// apposc.use('/', express.static(appResources));
-wss.on('connection', (socket) => {
-  console.log('A Web Socket connection has been established!');
-  let socketPort = new osc.WebSocketPort({
-    socket,
-  });
-
-  let relay = new osc.Relay(udp, socketPort, {
-    raw: true
-  });
-});
-*/
 
 // This will run for each individual user that connects
 io.sockets.on('connection', (socket) => {
@@ -125,18 +106,19 @@ io.sockets.on('connection', (socket) => {
     isConnected = true;
     oscServer = new osc.Server(obj.server.port, obj.server.host);
     oscClient = new osc.Client(obj.client.host, obj.client.port);
-    oscClient.send('/status', `${socket.sessionId} connected`);
+    oscClient.send('/status', `${socket} connected`);
     oscServer.on('message', (msg, rinfo) => {
       socket.emit('message', msg);
+      // console.log(`rinfo: ${rinfo.value}`);
     });
     socket.emit('connected', 1);
   });
-  /*
-  socket.on("message", function (obj) {
-    oscClient.send.apply(oscClient, obj);
-    console.log(obj);
+
+  socket.on('message', (obj) => {
+    oscClient.send(obj);
+    // console.log(obj);
   });
-  */
+
   socket.on('disconnect', () => {
     if (isConnected) {
       oscServer.kill();

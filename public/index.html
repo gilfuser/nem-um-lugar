@@ -4,11 +4,11 @@
   <title>Nem Um Lugar</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- <script src="lib/NexusUI.min.js"></script> -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js">
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+
   <link rel="stylesheet" href="styles.css">
 
-  </script>
   <!-- Bootstrap for general layout and styling -->
   <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
 
@@ -16,9 +16,6 @@
   <!-- <link rel="stylesheet" type="text/css" href="style/datachannel-demo.css"> -->
 </head>
 <body>
-
-<!-- <script src="./js/dom-loader.js"></script> -->
-<script src="./js/gui.js"></script>
 
   <div class="container">
     <div class="row">
@@ -48,6 +45,7 @@
             <button class="demo-chat-join btn btn-warning">Join</button>
           </div>
           <!-- OSC!!! -->
+          <div id="slider"></div>
           <button class=" btn" id="send-osc">Send OSC Message</button>
 
           <div class="demo-chat inactive">
@@ -110,4 +108,7 @@
     }
   </script>
 </body>
+<script src="lib/NexusUI.min.js"></script>
+<!-- <script src="./js/dom-loader.js"></script> -->
+<script src="js/gui.js"></script>
 </html>
