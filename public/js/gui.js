@@ -41,8 +41,8 @@ function setupOsc(oscPortIn, oscPortOut) {
   // const socketio = io.connect('http://127.0.0.1:5000', { port: 5000, rememberTransport: false });
   socket.on('connect', () => {
     socket.emit('config', {
-      server: { port: oscPortIn, host: '127.0.0.1' },
-      client: { port: oscPortOut, host: '127.0.0.1' },
+      server: { port: oscPortIn, host: '0.0.0.0' },
+      client: { port: oscPortOut, host: '0.0.0.0' },
     });
   });
   // check connection
