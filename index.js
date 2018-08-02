@@ -8,10 +8,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const errorHandler = require('errorhandler');
-const ws = require('ws');
-
-const PORT = process.env.PORT || 5001;
-const app = express();
+const osc = require('node-osc');
 
 // --------------------------------------------------------------------
 // SET UP PUSHER
@@ -34,101 +31,17 @@ const pusherCallback = (err, req, res) => {
   }
 };
 
-
-// -------------------------------------------------
-// SET UP OSC-js.js
-// -------------------------------------------------
-
-// const OSC = require('osc-js');
-const osc = require('osc');
-/* eslint-disable */
-const getIPAddresses = function () {
-    var os = require('os'),
-        interfaces = os.networkInterfaces(),
-        ipAddresses = [];
-
-    for (var deviceName in interfaces) {
-        var addresses = interfaces[deviceName];
-        for (var i = 0; i < addresses.length; i++) {
-            var addressInfo = addresses[i];
-            if (addressInfo.family === "IPv4" && !addressInfo.internal) {
-                ipAddresses.push(addressInfo.address);
-            }
-        }
-    }
-
-    return ipAddresses;
-};
-/* eslint-enable */
-const udp = new osc.UDPPort({
-  // This is the port we're listening on.
-  localAddress: '0.0.0.0',
-  localPort: 54321,
-  // This is where sclang is listening for OSC messages.
-  remoteAddress: '0.0.0.0',
-  remotePort: 57120,
-  metadata: true,
-});
-
-// Open the socket.
-
-// check incoming osc messages
-udp.on('ready', (message, timetag, info) => {
-  let ipAddresses = getIPAddresses();
-  console.log('Listening for OSC over UDP.');
-  ipAddresses.forEach((address) => {
-    console.log(' Host:', `${address}, Port:`, udp.options.localPort);
-  });
-  console.log(message);
-  console.log('To start the demo, go to http://localhost:8081 in your web browser.');
-});
-
-udp.open();
-
-// Every second, send an OSC message to SuperCollider
-udp.on('ready', () => {
-  setInterval(() => {
-    const msg = {
-      address: '/hello/from/oscjs',
-      args: [
-        {
-          type: 'f',
-          value: Math.random(),
-        },
-        {
-          type: 'f',
-          value: Math.random(),
-        },
-      ],
-    };
-    //  console.log('Sending message', msg.address, msg.args, 'to',
-    // `${udp.options.remoteAddress}:${udp.options.remotePort}`);
-    udp.send(msg);
-  }, 1000)
-});
-
-/* const oscoptions = {
-receiver: 'ws', // @param {string} Where messages sent via 'send'
-// method will be delivered to, 'ws' for Websocket clients, 'udp' for udp client
-udpServer: { port: 54321 },
-udpClient: { port: 57120 },
-wsServer: {
-host: '0.0.0.0', // @param {string} Hostname of WebSocket server
-port: 8080, // @param {number} Port of WebSocket server
-},
-};
-const osc = new OSC({ plugin: new OSC.BridgePlugin(oscoptions) });
-
-osc.on('/hello', (message) => {
-console.log(message.args);
-});
-
-osc.open(); // start a WebSocket server on port 8080
-*/
-
 // --------------------------------------------------------------------
-// SET UP EXPRESS
+// SET UP SERVERS
 // --------------------------------------------------------------------
+
+const app = express();
+const server = require('http').Server(app);
+// const ws = require('ws');
+
+const PORT = process.env.PORT || 5001;
+server.listen(PORT);
+console.log(`Server started on port ${PORT}`);
 
 // Parse application/json and application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
@@ -160,16 +73,36 @@ app.post('/message', (req, res) => {
   res.sendStatus(200);
 });
 
-app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+// app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 // OSC EXPRESS
-
-const apposc = express();
-const server = apposc.listen(8081);
-let wss = new ws.Server({
-  server,
+/*
+app.get('/', (req, res) => {
+  res.sendFile('/public/index.html');
 });
+*/
+app.use('/nexusui', express.static(path.join(__dirname, '/node_modules/nexusui/dist/')));
 
+// This call back just tells us that the server has started
+function listen() {
+  let host = server.address().address;
+  let port = server.address().port;
+  console.log(`Example app listening at http://${host}:${port}`);
+}
+// const apposc = express();
+// const server = apposc.listen(8888);
+// let wss = new ws.Server({
+// server,
+// });
+
+// ////////////// WebSocket Portion ///////////////////////
+
+const io = require('socket.io').listen(server);
+// const osc = require('node-osc');
+let oscServer;
+let oscClient;
+let isConnected = false;
+/*
 apposc.use(express.static(path.join(__dirname, 'public')));
 // apposc.use('/', express.static(appResources));
 wss.on('connection', (socket) => {
@@ -180,6 +113,36 @@ wss.on('connection', (socket) => {
 
   let relay = new osc.Relay(udp, socketPort, {
     raw: true
+  });
+});
+*/
+
+// This will run for each individual user that connects
+io.sockets.on('connection', (socket) => {
+  console.log(`We have a new client: ${socket.id}`);
+  // config OSC stuff
+  socket.on('config', (obj) => {
+    isConnected = true;
+    oscServer = new osc.Server(obj.server.port, obj.server.host);
+    oscClient = new osc.Client(obj.client.host, obj.client.port);
+    oscClient.send('/status', `${socket.sessionId} connected`);
+    oscServer.on('message', (msg, rinfo) => {
+      socket.emit('message', msg);
+    });
+    socket.emit('connected', 1);
+  });
+  /*
+  socket.on("message", function (obj) {
+    oscClient.send.apply(oscClient, obj);
+    console.log(obj);
+  });
+  */
+  socket.on('disconnect', () => {
+    if (isConnected) {
+      oscServer.kill();
+      oscClient.kill();
+      console.log('Client has disconnected');
+    }
   });
 });
 

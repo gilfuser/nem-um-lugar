@@ -3,6 +3,12 @@
 <head>
   <title>Nem Um Lugar</title>
 
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <script src="lib/NexusUI.min.js"></script> -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js">
+  <link rel="stylesheet" href="styles.css">
+
+  </script>
   <!-- Bootstrap for general layout and styling -->
   <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
 
@@ -10,6 +16,9 @@
   <!-- <link rel="stylesheet" type="text/css" href="style/datachannel-demo.css"> -->
 </head>
 <body>
+
+<!-- <script src="./js/dom-loader.js"></script> -->
+<script src="./js/gui.js"></script>
 
   <div class="container">
     <div class="row">
@@ -20,12 +29,10 @@
 
     <div class="row">
       <section class="col-md-12">
+
         <!-- <p>This chat application uses WebRTC to create a peer-to-peer, server-less connection between you and the recipient of your osc messages.</p>
-
         <hr>
-
         <h2>Getting started</h2>
-
         <ol>
           <li>Type a channel name and click <strong>create</strong></li>
           <li>Open the chat in another tab</li>
@@ -52,11 +59,8 @@
               <li class="list-group-item" data-remove="true">No chat messages available</li>
             </ul>
           </div>
-          <!-- <footer>
-            <a href="http://pusher.com">Pusher</a> powered peer-to-peer chat
-          </footer> -->
         </div>
-        <!-- /End WebRTC demo -->
+        <!-- /End WebRTC -->
       </section>
     </div>
   </div>
@@ -71,24 +75,24 @@
   <script src="//webrtc-experiment.com/DataChannel.js"></script>
 
   <!-- OSC-js -->
-  <script type="text/javascript" src="lib/osc-browser.min.js"></script>
+  <!-- <script type="text/javascript" src="lib/osc-browser.min.js"></script> -->
 
   <!-- <script type="text/javascript" src="https://raw.githubusercontent.com/gilfuser/nem-um-lugar/master/public/lib/osc-browser.min.js"></script> -->
 
   <!-- Our OSC application -->
-  <script type="text/javascript" src="osc-stuff.js"></script>
-  <h1>osc.js Web Socket Demo</h1>
+  <!-- <script type="text/javascript" src="osc-stuff.js"></script> -->
+  <!-- <h1>osc.js Web Socket Demo</h1>
   <div id="messageArea">
     <p id="messageLabel">OSC Message:</p>
     <pre id="message"></pre>
   </div>
 
   <script>
-    let socketSynth = new example.SocketSynth();
-  </script>
+    // let socketSynth = new example.SocketSynth();
+  </script> -->
 
   <!-- Our WebRTC application -->
-  <script src="um-lugar.js"></script>
+  <!-- <script src="um-lugar.js"></script> -->
 
   <!-- Fill channel name -->
   <script>
