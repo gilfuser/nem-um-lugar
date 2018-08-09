@@ -1,40 +1,47 @@
 {
-  "name": "nem-um-lugar",
-  "version": "0.0.1",
-  "description": "osc anywhere",
-  "engines": {
-    "node": "8.11.3"
-  },
-  "main": "index.js",
-  "scripts": {
-    "start": "nf start",
-    "test": "node test.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gilfuser/nem-um-lugar.git"
-  },
-  "author": "Gil Fuser",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/gilfuser/nem-um-lugar/issues"
-  },
-  "homepage": "https://github.com/gilfuser/nem-um-lugar#readme",
-  "dependencies": {
-    "body-parser": "^1.18.3",
-    "errorhandler": "^1.5.0",
-    "express": "^4.16.3",
-    "nexusui": "^2.0.7",
-    "node-osc": "^2.1.0",
-    "osc-js": "^1.2.2",
-    "pusher": "^2.1.2",
-    "socket.io": "^2.1.1",
-    "socket.io-client": "^2.1.1",
-    "webpack": "^4.16.3"
-  },
-  "devDependencies": {
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-import": "^2.13.0"
-  }
+    "name": "nem-um-lugar",
+    "version": "0.0.2",
+    "description": "osc anywhere",
+    "engines": {
+        "node": "10.8.0"
+    },
+    "main": "index.js",
+    "scripts": {
+        "start": "nf start",
+        "test": "node test.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/gilfuser/nem-um-lugar.git"
+    },
+    "author": "Gil Fuser",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/gilfuser/nem-um-lugar/issues"
+    },
+    "homepage": "https://github.com/gilfuser/nem-um-lugar#readme",
+    "dependencies": {
+        "body-parser": "^1.18.3",
+        "dotenv": "^6.0.0",
+        "errorhandler": "^1.5.0",
+        "express": "^4.16.3",
+        "nexusui": "^2.0.7",
+        "node-osc": "^2.1.0",
+        "pusher": "^2.1.2",
+        "socket.io": "^2.1.1",
+        "socket.io-client": "^2.1.1",
+        "zepto": "^1.2.0"
+    },
+    "devDependencies": {
+        "babel-core": "^6.26.3",
+        "babel-eslint": "^8.2.6",
+        "babel-plugin-syntax-jsx": "^6.18.0",
+        "babel-plugin-transform-runtime": "^6.23.0",
+        "babel-preset-env": "^1.7.0",
+        "babel-preset-stage-2": "^6.24.1",
+        "eslint": "^4.19.1",
+        "eslint-config-airbnb-base": "^13.0.0",
+        "eslint-friendly-formatter": "^4.0.1",
+        "eslint-plugin-import": "^2.13.0"
+    }
 }

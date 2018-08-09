@@ -1,4 +1,4 @@
-n = NetAddr.new("127.0.0.1", 57121);
+n = NetAddr.new("127.0.0.1", 3333);
 
 w = Window.new("osc test");
 
@@ -21,3 +21,17 @@ f = w.addFlowLayout(5@5, 5@5);
 });
 
 w.front;
+
+// this example is basically like OSCFunc.trace but filters out
+// /status.reply messages
+(
+g = { |msg, time, addr|
+    if(msg[0] != '/status.reply') {
+        "time: % sender: %\nmessage: %\n".postf(time, addr, msg);
+    }
+};
+thisProcess.addOSCRecvFunc(g);
+);
+
+// stop posting.
+thisProcess.removeOSCRecvFunc(g);

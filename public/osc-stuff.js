@@ -2,7 +2,8 @@
 let example = example || {};
 
 (function () {
-/*
+
+  /*
   let freqTransform = function (value) {
     return (value * 6000) + 60;
   };
@@ -32,7 +33,8 @@ let example = example || {};
       transform: freqTransform
     }
   };
-*/
+  */
+
   example.SocketSynth = () => {
     this.oscPort = new osc.WebSocketPort({
       url: 'ws://localhost:8888'

@@ -2,9 +2,7 @@
 <html>
 <head>
   <title>Nem Um Lugar</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
 
   <!-- <link rel="stylesheet" href="styles.css"> -->
@@ -16,8 +14,8 @@
   <!-- <link rel="stylesheet" type="text/css" href="style/datachannel-demo.css"> -->
 </head>
 <body>
-   <div class="container">
-     <p id="p1">Hello World!</p>
+  <div class="container">
+    <p id="p1">Hello World!</p>
     <div class="row">
       <header class="col-md-12">
         <h1>Nenhum lugar</h1>
@@ -41,7 +39,7 @@
 
         <div class="demo">
           <div class="demo-connect">
-            <input type="text" class="demo-chat-channel-input form-control" placeholder="Channel name"></input>
+            <input type="text" class="demo-chat-channel-input form-control" placeholder="Channel name">
             <button class="demo-chat-create btn btn-primary">Create</button>
             <button class="demo-chat-join btn btn-warning">Join</button>
           </div>
@@ -51,7 +49,7 @@
 
           <div class="demo-chat inactive">
             <div class="demo-chat-input">
-              <input name="message" class="demo-chat-message-input form-control" placeholder="Message"></input>
+              <input name="message" class="demo-chat-message-input form-control" placeholder="Message">
               <button class="demo-chat-send btn btn-primary">Send</button>
             </div>
             <ul class="demo-chat-messages list-group">
@@ -80,27 +78,25 @@
 
   <!-- <script type="text/javascript" src="https://raw.githubusercontent.com/gilfuser/nem-um-lugar/master/public/lib/osc-browser.min.js"></script> -->
 
-  <!-- Our OSC application -->
-  <!-- <script type="text/javascript" src="osc-stuff.js"></script> -->
   <!-- <h1>osc.js Web Socket Demo</h1>
-  <div id="messageArea">
-    <p id="messageLabel">OSC Message:</p>
-    <pre id="message"></pre>
-  </div>
-
-  <script>
-    // let socketSynth = new example.SocketSynth();
-  </script> -->
-
-  <!-- Our WebRTC application -->
-  <!-- <script src="um-lugar.js"></script> -->
-
-  <!-- Fill channel name -->
-  <script>
+    <div id="messageArea">
+      <p id="messageLabel">OSC Message:</p>
+      <pre id="message"></pre>
+    </div>
+    
+    <script>
+      // let socketSynth = new example.SocketSynth();
+    </script> -->
+    
+    <!-- Our WebRTC application -->
+    <script src="um-lugar.js"></script>
+    
+    <!-- Fill channel name -->
+    <script>
     function getParameterByName(name) {
       name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
       let regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-          results = regex.exec(location.search);
+      results = regex.exec(location.search);
       return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
@@ -112,7 +108,9 @@
   </script>
 
 </body>
+<!-- Our OSC application -->
 <script src="lib/NexusUI.min.js"></script>
 <!-- <script src="./js/dom-loader.js"></script> -->
 <script src="js/gui.js"></script>
+<!-- <script type="text/javascript" src="osc-stuff.js"></script> -->
 </html>

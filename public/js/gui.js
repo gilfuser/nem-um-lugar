@@ -18,7 +18,7 @@ synth2.mod.value = 0.75;
 
 function receiveOsc(address, msg) {
   // console.log(`received OSC: ${address}, ${msg}`);
-document.getElementById('p1').innerHTML = `received OSC: ${address}, ${msg}`;
+  document.getElementById('p1').innerHTML = `received OSC: ${address}, ${msg}`;
 }
 
 const socket = io.connect();
@@ -42,8 +42,8 @@ function setupOsc(oscPortIn, oscPortOut) {
   // const socketio = io.connect('http://127.0.0.1:5000', { port: 5000, rememberTransport: false });
   socket.on('connect', () => {
     socket.emit('config', {
-      server: { port: oscPortIn, host: '0.0.0.0' },
-      client: { port: oscPortOut, host: '0.0.0.0' },
+      server: { port: oscPortIn, host: '127.0.0.1' },
+      client: { port: oscPortOut, host: '127.0.0.1' },
     });
   });
   // check connection
@@ -60,6 +60,7 @@ function setupOsc(oscPortIn, oscPortOut) {
       }
     } else {
       receiveOsc(msg[0], msg.splice(1));
+      // console.log('some message received')
     }
   });
 }
