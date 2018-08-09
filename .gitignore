@@ -7,7 +7,5 @@ npm-debug.log
 *.dev
 .DS_Store
 config.js
-
-# Docker
-Dockerfile
-docker-compose.yml
+yarn.lock
+yarn.error
